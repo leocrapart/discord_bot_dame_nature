@@ -1,7 +1,6 @@
 import discord
 import os
 from dotenv import load_dotenv
-import warbots
 import command_arguments
 
 client = discord.Client()
@@ -15,34 +14,44 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    discord_listener = DiscordListener(message)
-    
-    command_prefix = "*"
-    print("### debug")
-    print(message.author)
-    print(client.user)
+    command = message2command(message)
+    discord_listener = DiscordListener(command)
+    discord_speaker = DiscordSpeaker(message)
 
+    if discord_listener.is_command("hello"):
+      await discord_speaker.say_hello()
 
-
-
+def message2command(message):
     message_text = message.content
-    if message_text.startswith("*"):
-        command, args = command_arguments.get_command_and_args(message_text)
-        await message.channel.send(command)
-        await message.channel.send(args)
+    command_tuple = command_arguments.get_command_and_args(message_text)
+    command_name, command_args = command_tuple
+    return Command(command_name, command_args)
 
-    if message_text.startswith("*hello dame nature"):
-        await message.channel.send("Bienvenue dans les regles du jeu, je suis dame nature.")
-
-    if message_text.startswith("*create new warbot leebot"):
-        warbots.create_new_warbot("leebot")
-        await message.channel.send("New warbot created")
-
+#I listen to commands so that i can tell you what command to react to
 class DiscordListener:
     command_prefix = "*"
-    def __init__(self, message):
-        self.message = message
+    def __init__(self, command):
+        self.command = command
+    
+    def is_command(self, command_name):
+      return self.command_name().startswith(command_name)
 
+    def command_name(self):
+      return self.command.name
+
+#I am a command with a name and args
+class Command:
+  def __init__(self, name, args):
+    self.name = name
+    self.args = args
+
+#I send messages on the discord channel
+class DiscordSpeaker:
+  def __init__(self, message):
+    self.message = message
+  
+  async def say_hello(self):
+    await self.message.channel.send("Hello from speaker")
 
 
 load_dotenv()

@@ -13,14 +13,14 @@ def get_args(text):
     try:
       first_space_index = text.index(" ")
     except:
-      args = None
+      args = []
     
     if first_space_index:
       arg_string = text[first_space_index:]
       arg_string_striped = arg_string.strip()
       args = re.split(r"\ +", arg_string_striped)
     else:
-      args = None
+      args = []
     return args
 
 

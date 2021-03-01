@@ -73,7 +73,7 @@ async def on_message(message):
         await discord_speaker.say(f"{command.args[1]} attack added to {command.args[0]} ")
       elif number_of_args <= 1:
         await discord_speaker.say("I need a name and a value to execute this")
-      
+
 def message2command(message):
     message_text = message.content
     command_tuple = command_arguments.get_command_and_args(message_text)

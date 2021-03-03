@@ -2,6 +2,7 @@ import discord
 import os
 from dotenv import load_dotenv
 import command_arguments
+from warbot import WarbotGenerator
 
 client = discord.Client()
 
@@ -73,6 +74,23 @@ async def on_message(message):
         await discord_speaker.say(f"{command.args[1]} attack added to {command.args[0]} ")
       elif number_of_args <= 1:
         await discord_speaker.say("I need a name and a value to execute this")
+    
+    if discord_listener.is_command("generate-warbots"):
+      command = discord_listener.command
+      number_of_args = len(command.args)
+      if number_of_args >= 2:
+        difficulty = command.args[0]
+        amount = int(command.args[1])
+        warbots = WarbotGenerator().create_random_warbots(difficulty, amount)
+        response = f" here are your {amount} {difficulty} warbots !"
+        for warbot in warbots:
+          response += f"\n {warbot.presentation()}"
+        await discord_speaker.say(response)
+
+        
+      elif number_of_args < 2:
+        await discord_speaker.say("I need a difficulty (easy, medium, hard) and a number to produce these warbots.")
+
 
 def message2command(message):
     message_text = message.content

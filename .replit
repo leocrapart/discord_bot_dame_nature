@@ -1,4 +1,4 @@
 language = "python3"
-run = "python playerbot.py"
+run = "python gaia.py"
 
 [packager]

@@ -1,8 +1,6 @@
 import random
 
 class WarbotGenerator:
-    intervals = [{}, {}, {}]
-
     def generate_random_warbots(self, difficulty, amount):
         lvl_range = self.lvl_ranges(difficulty)
         empty_warbots = [lvl_range for i in range(amount)]
@@ -115,7 +113,7 @@ def print_warbots():
     random_warbots = warbot_generator.generate_random_warbots("hard", 2)
     for warbot in random_warbots:
         warbot.present_yourself()
-
+#print_warbots()
 
 def test_warbot_difficulties():
     assert is_difficulty_correct("easy")

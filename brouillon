@@ -1,0 +1,9 @@
+    if discord_listener.is_command("kill-warbots"):
+      await send_post_action_message("kill-warbots", discord_speaker)
+
+    if discord_listener.is_command("show-warbots"):
+      await send_post_action_message("show-warbots", discord_speaker)
+
+
+async def send_post_action_message(command, sender):
+  await sender.say(post_action_message(command))
